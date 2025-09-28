@@ -1,0 +1,194 @@
+[[keyboard.bindings]]
+chars = "\f"
+key = "R"
+mode = "~Vi|~Search"
+mods = "Command"
+
+[[keyboard.bindings]]
+action = "ClearHistory"
+key = "R"
+mode = "~Vi|~Search"
+mods = "Command"
+
+[[keyboard.bindings]]
+action = "Quit"
+key = "W"
+mods = "Command|Shift"
+
+[[keyboard.bindings]]
+action = "SpawnNewInstance"
+key = "N"
+mods = "Command"
+
+[[keyboard.bindings]]
+chars = "\u001Bb"
+key = "Left"
+mods = "Alt"
+
+[[keyboard.bindings]]
+chars = "\u001Bf"
+key = "Right"
+mods = "Alt"
+
+[[keyboard.bindings]]
+chars = "\u0001"
+key = "Left"
+mods = "Command"
+
+[[keyboard.bindings]]
+chars = "\u0005"
+key = "Right"
+mods = "Command"
+
+[[keyboard.bindings]]
+chars = "\u0015"
+key = "Back"
+mods = "Command"
+
+[[keyboard.bindings]]
+chars = "\u001B\u007F"
+key = "Back"
+mods = "Alt"
+
+# tmux tab navigation and management
+[[keyboard.bindings]]
+chars = "\u001Cc"
+key = "T"
+mods = "Command"
+
+[[keyboard.bindings]]
+chars = "\u001C&"
+key = "W"
+mods = "Command"
+
+[[keyboard.bindings]]
+chars = "\u001Cp"
+key = "LBracket"
+mods = "Command"
+
+[[keyboard.bindings]]
+chars = "\u001Cn"
+key = "RBracket"
+mods = "Command"
+
+# tmux tab switching 1-9
+[[keyboard.bindings]]
+chars = "\u001C1"
+key = "Key1"
+mods = "Command"
+
+[[keyboard.bindings]]
+chars = "\u001C2"
+key = "Key2"
+mods = "Command"
+
+[[keyboard.bindings]]
+chars = "\u001C3"
+key = "Key3"
+mods = "Command"
+
+[[keyboard.bindings]]
+chars = "\u001C4"
+key = "Key4"
+mods = "Command"
+
+[[keyboard.bindings]]
+chars = "\u001C5"
+key = "Key5"
+mods = "Command"
+
+[[keyboard.bindings]]
+chars = "\u001C6"
+key = "Key6"
+mods = "Command"
+
+[[keyboard.bindings]]
+chars = "\u001C7"
+key = "Key7"
+mods = "Command"
+
+[[keyboard.bindings]]
+chars = "\u001C8"
+key = "Key8"
+mods = "Command"
+
+[[keyboard.bindings]]
+chars = "\u001C9"
+key = "Key9"
+mods = "Command"
+
+# Back key receives character
+[[keyboard.bindings]]
+action = "ReceiveChar"
+key = "Back"
+
+[terminal]
+
+[general]
+live_config_reload = true
+import = [
+  # uncomment the flavour you want below:
+  "~/.config/alacritty/rose-pine.toml"
+  # "~/.config/alacritty/catppuccin-mocha.toml"
+  # "~/.config/alacritty/catppuccin-frappe.toml"
+  # "~/.config/alacritty/catppuccin-macchiato.toml"
+  # "~/.config/alacritty/catppuccin-mocha.toml"
+]
+
+[colors]
+draw_bold_text_with_bright_colors = true
+
+[cursor.style]
+shape = "Block"
+
+[font]
+size = 17.0
+
+[font.bold]
+family = "FiraCode Nerd Font Mono"
+style = "Regular"
+
+[font.bold_italic]
+family = "FiraCode Nerd Font Mono"
+style = "Italic"
+
+[font.glyph_offset]
+x = 0
+y = 3
+
+[font.italic]
+family = "FiraCode Nerd Font Mono"
+style = "Italic"
+
+[font.normal]
+family = "FiraCode Nerd Font Mono"
+style = "Regular"
+
+[font.offset]
+x = 0
+y = 9
+
+[scrolling]
+history = 100000
+multiplier = 4
+
+[selection]
+save_to_clipboard = true
+semantic_escape_chars = ''',│`|:"' ()[]{}<>'''
+
+[window]
+decorations = "transparent"
+
+[window.dimensions]
+columns = 106
+lines = 25
+
+[window.padding]
+x = 20
+y = 22
+
+[terminal.shell]
+program = "/bin/zsh"
+args = ["--login", "-c", "tmux attach || tmux new"]
+
+[keyboard]
