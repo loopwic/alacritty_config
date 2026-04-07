@@ -25,15 +25,18 @@ setopt INC_APPEND_HISTORY
 setopt SHARE_HISTORY
 
 # Stable and fast completion cache.
-autoload -Uz compinit
-if [[ -n "${XDG_CACHE_HOME:-}" ]]; then
-  _zcompdump_path="$XDG_CACHE_HOME/zsh/zcompdump"
-else
-  _zcompdump_path="$HOME/.cache/zsh/zcompdump"
+# Oh My Zsh already initializes completion; skip re-init when available.
+if ! typeset -f compdef >/dev/null 2>&1; then
+  autoload -Uz compinit
+  if [[ -n "${XDG_CACHE_HOME:-}" ]]; then
+    _zcompdump_path="$XDG_CACHE_HOME/zsh/zcompdump"
+  else
+    _zcompdump_path="$HOME/.cache/zsh/zcompdump"
+  fi
+  mkdir -p "${_zcompdump_path:h}"
+  compinit -d "$_zcompdump_path"
+  unset _zcompdump_path
 fi
-mkdir -p "${_zcompdump_path:h}"
-compinit -d "$_zcompdump_path"
-unset _zcompdump_path
 
 zstyle ':completion:*' menu select
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
@@ -63,14 +66,3 @@ export VISUAL="$EDITOR"
 alias ta='tmux new-session -A -s main'
 alias tls='tmux list-sessions'
 alias tk='tmux kill-session -t'
-
-# Lightweight git-aware prompt without external frameworks.
-autoload -Uz vcs_info
-zstyle ':vcs_info:*' enable git
-zstyle ':vcs_info:git:*' formats '%F{6}(%b)%f'
-
-precmd() {
-  vcs_info
-}
-
-PROMPT='%F{3}%n%f@%F{2}%m%f %F{4}%~%f ${vcs_info_msg_0_} %# '

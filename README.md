@@ -125,7 +125,8 @@ source ~/.config/alacritty/zsh-alacritty-tmux.zsh
 - 历史记录去重与共享策略（更适合多 tmux pane）
 - 完成系统缓存加速
 - 与 Alacritty 键位一致的单词跳转/删除绑定
-- 轻量 Git 分支提示与 tmux 常用别名
+- tmux 常用别名
+- 与 Oh My Zsh / Powerlevel10k 兼容（不覆盖现有主题提示）
 
 快速验证：
 
