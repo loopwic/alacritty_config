@@ -52,68 +52,68 @@ mods = "Alt"
 
 # tmux tab navigation and management
 [[keyboard.bindings]]
-chars = "\u001Cc"
+chars = "\u0001c"
 key = "T"
 mods = "Command"
 
 [[keyboard.bindings]]
-chars = "\u001C&"
+chars = "\u0001&"
 key = "W"
 mods = "Command"
 
 [[keyboard.bindings]]
-chars = "\u001Cp"
+chars = "\u0001p"
 key = "LBracket"
 mods = "Command"
 
 [[keyboard.bindings]]
-chars = "\u001Cn"
+chars = "\u0001n"
 key = "RBracket"
 mods = "Command"
 
 # tmux tab switching 1-9
 [[keyboard.bindings]]
-chars = "\u001C1"
+chars = "\u00011"
 key = "Key1"
 mods = "Command"
 
 [[keyboard.bindings]]
-chars = "\u001C2"
+chars = "\u00012"
 key = "Key2"
 mods = "Command"
 
 [[keyboard.bindings]]
-chars = "\u001C3"
+chars = "\u00013"
 key = "Key3"
 mods = "Command"
 
 [[keyboard.bindings]]
-chars = "\u001C4"
+chars = "\u00014"
 key = "Key4"
 mods = "Command"
 
 [[keyboard.bindings]]
-chars = "\u001C5"
+chars = "\u00015"
 key = "Key5"
 mods = "Command"
 
 [[keyboard.bindings]]
-chars = "\u001C6"
+chars = "\u00016"
 key = "Key6"
 mods = "Command"
 
 [[keyboard.bindings]]
-chars = "\u001C7"
+chars = "\u00017"
 key = "Key7"
 mods = "Command"
 
 [[keyboard.bindings]]
-chars = "\u001C8"
+chars = "\u00018"
 key = "Key8"
 mods = "Command"
 
 [[keyboard.bindings]]
-chars = "\u001C9"
+chars = "\u00019"
 key = "Key9"
 mods = "Command"
 
@@ -129,10 +129,12 @@ live_config_reload = true
 import = [
   # uncomment the flavour you want below:
   "~/.config/alacritty/rose-pine.toml"
+  # "~/.config/alacritty/rose-pine-moon.toml"
+  # "~/.config/alacritty/rose-pine-dawn.toml"
+  # "~/.config/alacritty/catppuccin-latte.toml"
   # "~/.config/alacritty/catppuccin-mocha.toml"
   # "~/.config/alacritty/catppuccin-frappe.toml"
   # "~/.config/alacritty/catppuccin-macchiato.toml"
-  # "~/.config/alacritty/catppuccin-mocha.toml"
 ]
 
 [colors]
@@ -189,6 +191,6 @@ y = 22
 
 [terminal.shell]
 program = "/bin/zsh"
-args = ["--login", "-c", "tmux attach || tmux new"]
+args = ["--login", "-c", "tmux new-session -A -s main"]
 
 [keyboard]

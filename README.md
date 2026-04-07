@@ -1,6 +1,7 @@
 # Alacritty 配置
 
 这是我的 Alacritty 终端模拟器配置，集成了 zsh + tmux 的工作流程。
+当前 tmux 前缀为 `Ctrl+A`，并通过 `Cmd` 快捷键桥接常用窗口操作。
 
 ## 功能特性
 
@@ -54,8 +55,8 @@
 
 #### 自动启动 Tmux
 
-- 启动时自动连接或创建 tmux 会话
-- 命令：`tmux attach || tmux new`
+- 启动时自动连接或创建固定会话 `main`
+- 命令：`tmux new-session -A -s main`
 
 ## 文件结构
 
@@ -130,14 +131,15 @@ import = [
 ## Tmux 键位说明
 
 本配置将常用的 tmux 操作映射到 macOS 风格的快捷键：
+tmux 前缀：`Ctrl+A`
 
 | 快捷键    | Tmux 命令    | 功能           |
 | --------- | ------------ | -------------- |
-| `Cmd+T`   | `Ctrl+C c`   | 新建窗口       |
-| `Cmd+W`   | `Ctrl+C &`   | 关闭窗口       |
-| `Cmd+[`   | `Ctrl+C p`   | 上一个窗口     |
-| `Cmd+]`   | `Ctrl+C n`   | 下一个窗口     |
-| `Cmd+1-9` | `Ctrl+C 1-9` | 切换到指定窗口 |
+| `Cmd+T`   | `Ctrl+A c`   | 新建窗口       |
+| `Cmd+W`   | `Ctrl+A &`   | 关闭窗口       |
+| `Cmd+[`   | `Ctrl+A p`   | 上一个窗口     |
+| `Cmd+]`   | `Ctrl+A n`   | 下一个窗口     |
+| `Cmd+1-9` | `Ctrl+A 1-9` | 切换到指定窗口 |
 
 ## 故障排除
 
