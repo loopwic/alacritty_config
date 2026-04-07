@@ -137,6 +137,18 @@ bindkey | grep -E '\\^\\[b|\\^\\[f|\\^\\[\\^\\?'
 echo $EDITOR
 ```
 
+一键应用（幂等，可重复执行）：
+
+```bash
+zsh ~/.config/alacritty/apply-zsh-optimizations.zsh
+```
+
+可指定目标文件：
+
+```bash
+zsh ~/.config/alacritty/apply-zsh-optimizations.zsh ~/.zshrc
+```
+
 ## 安装指南
 
 1. 安装依赖：
