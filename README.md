@@ -15,7 +15,7 @@
 
 #### 基础操作
 
-- `Cmd+R`: 清屏/清除历史记录
+- `Cmd+R`: 清屏
 - `Cmd+Shift+W`: 退出 Alacritty
 - `Cmd+N`: 新建实例
 - `Cmd+T`: 创建新的 tmux 窗口
@@ -47,6 +47,9 @@
 - 尺寸：106 列 × 25 行
 - 内边距：水平 20px，垂直 22px
 - 透明窗口装饰
+- 窗口透明度：0.94
+- 动态内边距：开启
+- macOS 模糊背景：开启
 
 #### 滚动设置
 
@@ -107,6 +110,31 @@ import = [
 - FiraCode Nerd Font 字体
 - Zsh shell
 
+## Zsh 优化配置
+
+仓库已提供 zsh 优化片段：[zsh-alacritty-tmux.zsh](zsh-alacritty-tmux.zsh)。
+
+在 `~/.zshrc` 末尾添加：
+
+```zsh
+source ~/.config/alacritty/zsh-alacritty-tmux.zsh
+```
+
+该片段包含：
+
+- 历史记录去重与共享策略（更适合多 tmux pane）
+- 完成系统缓存加速
+- 与 Alacritty 键位一致的单词跳转/删除绑定
+- 轻量 Git 分支提示与 tmux 常用别名
+
+快速验证：
+
+```bash
+source ~/.zshrc
+bindkey | grep -E '\\^\\[b|\\^\\[f|\\^\\[\\^\\?'
+echo $EDITOR
+```
+
 ## 安装指南
 
 1. 安装依赖：
@@ -141,6 +169,20 @@ tmux 前缀：`Ctrl+A`
 | `Cmd+]`   | `Ctrl+A n`   | 下一个窗口     |
 | `Cmd+1-9` | `Ctrl+A 1-9` | 切换到指定窗口 |
 
+## 兼容约定
+
+- tmux 前缀固定为 `Ctrl+A`，与 Alacritty 中 `Cmd+T`、`Cmd+W`、`Cmd+1-9` 等桥接快捷键一致。
+- 默认 shell 使用 zsh：tmux 中的 `default-shell` 固定为 `/bin/zsh`，避免会话内 shell 漂移。
+- 终端颜色策略：Alacritty 外层保持 `TERM=alacritty`，tmux 通过 `terminal-overrides` 为 `alacritty` 与 `xterm-256color` 同时启用 truecolor。
+
+可用以下命令快速验证：
+
+```bash
+echo $TERM
+tmux show -gv default-shell
+tmux show -gv terminal-overrides
+```
+
 ## 故障排除
 
 ### Tmux 未自动启动
@@ -164,5 +206,6 @@ tmux 前缀：`Ctrl+A`
 1. **根据屏幕调整字体大小**：4K 显示器建议 16-18pt，普通显示器 12-14pt
 2. **根据使用习惯调整窗口尺寸**：开发推荐 120×30，日常使用 100×25
 3. **选择合适的主题**：白天推荐 Rose Pine Dawn，夜晚推荐 Rose Pine 或 Catppuccin Mocha
+4. **透明度微调建议**：若更重视对比度可将 `opacity` 调到 `0.97`；若更重视氛围可降到 `0.90-0.92`
 
 ---

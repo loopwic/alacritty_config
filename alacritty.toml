@@ -5,12 +5,6 @@ mode = "~Vi|~Search"
 mods = "Command"
 
 [[keyboard.bindings]]
-action = "ClearHistory"
-key = "R"
-mode = "~Vi|~Search"
-mods = "Command"
-
-[[keyboard.bindings]]
 action = "Quit"
 key = "W"
 mods = "Command|Shift"
@@ -180,6 +174,9 @@ semantic_escape_chars = ''',│`|:"' ()[]{}<>'''
 
 [window]
 decorations = "transparent"
+dynamic_padding = true
+opacity = 0.94
+blur = true
 
 [window.dimensions]
 columns = 106
