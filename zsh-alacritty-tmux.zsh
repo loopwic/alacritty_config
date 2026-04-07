@@ -5,12 +5,9 @@
 # Only run for interactive shells.
 [[ -o interactive ]] || return 0
 
-# Keep history in XDG state directory when available.
-if [[ -n "${XDG_STATE_HOME:-}" ]]; then
-  HISTFILE="$XDG_STATE_HOME/zsh/history"
-else
-  HISTFILE="$HOME/.local/state/zsh/history"
-fi
+# Keep history in a stable local path.
+HISTFILE="$HOME/.local/state/zsh/history"
+mkdir -p "${HISTFILE:h}"
 HISTSIZE=50000
 SAVEHIST=50000
 
@@ -23,20 +20,6 @@ setopt HIST_REDUCE_BLANKS
 setopt HIST_SAVE_NO_DUPS
 setopt INC_APPEND_HISTORY
 setopt SHARE_HISTORY
-
-# Stable and fast completion cache.
-# Oh My Zsh already initializes completion; skip re-init when available.
-if ! typeset -f compdef >/dev/null 2>&1; then
-  autoload -Uz compinit
-  if [[ -n "${XDG_CACHE_HOME:-}" ]]; then
-    _zcompdump_path="$XDG_CACHE_HOME/zsh/zcompdump"
-  else
-    _zcompdump_path="$HOME/.cache/zsh/zcompdump"
-  fi
-  mkdir -p "${_zcompdump_path:h}"
-  compinit -d "$_zcompdump_path"
-  unset _zcompdump_path
-fi
 
 zstyle ':completion:*' menu select
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
@@ -53,14 +36,6 @@ setopt AUTO_CD
 setopt AUTO_PUSHD
 setopt PUSHD_IGNORE_DUPS
 setopt INTERACTIVE_COMMENTS
-
-# Tools.
-if command -v nvim >/dev/null 2>&1; then
-  export EDITOR=nvim
-else
-  export EDITOR=vim
-fi
-export VISUAL="$EDITOR"
 
 # tmux helpers.
 alias ta='tmux new-session -A -s main'

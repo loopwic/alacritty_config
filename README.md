@@ -123,10 +123,11 @@ source ~/.config/alacritty/zsh-alacritty-tmux.zsh
 该片段包含：
 
 - 历史记录去重与共享策略（更适合多 tmux pane）
-- 完成系统缓存加速
+- 补全菜单与大小写匹配优化
 - 与 Alacritty 键位一致的单词跳转/删除绑定
 - tmux 常用别名
 - 与 Oh My Zsh / Powerlevel10k 兼容（不覆盖现有主题提示）
+- 固定策略配置（不使用 fallback 分支）
 
 快速验证：
 
