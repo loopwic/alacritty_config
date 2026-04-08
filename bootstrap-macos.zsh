@@ -257,6 +257,56 @@ ensure_brew_packages() {
   refresh_tool_paths
 }
 
+ensure_oh_my_zsh_stack() {
+  local omz_dir="${OH_MY_ZSH_DIR:-$HOME/.oh-my-zsh}"
+  local omz_repo="${OH_MY_ZSH_REPO:-https://github.com/ohmyzsh/ohmyzsh.git}"
+  local custom_dir plugin_name plugin_repo plugin_dir spec
+  typeset -a plugin_specs
+
+  plugin_specs=(
+    "zsh-autosuggestions|https://github.com/zsh-users/zsh-autosuggestions.git"
+    "zsh-syntax-highlighting|https://github.com/zsh-users/zsh-syntax-highlighting.git"
+  )
+
+  if ! command -v git >/dev/null 2>&1; then
+    log "Installing git for Oh My Zsh bootstrap"
+    run "$BREW_BIN" install git
+  fi
+
+  if [[ -r "$omz_dir/oh-my-zsh.sh" ]]; then
+    log "Oh My Zsh already installed: $omz_dir"
+  else
+    log "Installing Oh My Zsh"
+    if [[ -d "$omz_dir" ]]; then
+      quarantine_path_if_exists "$omz_dir"
+    fi
+    run git clone --depth=1 "$omz_repo" "$omz_dir"
+  fi
+
+  custom_dir="${ZSH_CUSTOM:-$omz_dir/custom}"
+  run mkdir -p "$custom_dir/plugins"
+
+  for spec in "${plugin_specs[@]}"; do
+    plugin_name="${spec%%|*}"
+    plugin_repo="${spec#*|}"
+    plugin_dir="$custom_dir/plugins/$plugin_name"
+
+    if [[ -d "$plugin_dir/.git" ]]; then
+      log "Updating Oh My Zsh plugin: $plugin_name"
+      if (( DRY_RUN )); then
+        log "Would run: git -C $plugin_dir pull --ff-only"
+      else
+        git -C "$plugin_dir" pull --ff-only || warn "Could not fast-forward $plugin_name, keeping current checkout"
+      fi
+    elif [[ -d "$plugin_dir" ]]; then
+      warn "Skipping $plugin_name because $plugin_dir exists and is not a git checkout"
+    else
+      log "Installing Oh My Zsh plugin: $plugin_name"
+      run git clone --depth=1 "$plugin_repo" "$plugin_dir"
+    fi
+  done
+}
+
 cleanup_brew_runtime_formulas() {
   local formula cask
   local -A leaf_formula=()
@@ -342,7 +392,7 @@ cleanup_non_mise_runtime_managers() {
 scrub_shell_file() {
   local file="$1"
   local tmp
-  local legacy_regex='(NVM_DIR|nvm\.sh|\.nvm|nodenv|\.nodenv|pyenv|\.pyenv|rbenv|\.rbenv|goenv|\.goenv|gvm|\.gvm|jenv|\.jenv|sdkman-init\.sh|\.sdkman/candidates/java|jabba|\.jabba|volta|\.volta|fnm|\.fnm|asdf\.sh|\.asdf/(installs|downloads|plugins)|\.cargo/bin|cargo/env|rustup|rtx activate|mise activate zsh|p10k-instant-prompt|POWERLEVEL9K_INSTANT_PROMPT|\$ZSH/oh-my-zsh\.sh|/oh-my-zsh\.sh)'
+  local legacy_regex='(NVM_DIR|nvm\.sh|\.nvm|nodenv|\.nodenv|pyenv|\.pyenv|rbenv|\.rbenv|goenv|\.goenv|gvm|\.gvm|jenv|\.jenv|sdkman-init\.sh|\.sdkman/candidates/java|jabba|\.jabba|volta|\.volta|fnm|\.fnm|asdf\.sh|\.asdf/(installs|downloads|plugins)|\.cargo/bin|cargo/env|rustup|rtx activate|mise activate zsh|p10k-instant-prompt|POWERLEVEL9K_INSTANT_PROMPT|\$ZSH/oh-my-zsh\.sh|/oh-my-zsh\.sh|zsh-syntax-highlighting\.zsh|zsh-autosuggestions\.zsh|powerlevel10k\.zsh-theme)'
 
   if [[ ! -f "$file" ]]; then
     if (( DRY_RUN )); then
@@ -434,6 +484,16 @@ if command -v mise >/dev/null 2>&1; then
   eval "$(mise activate zsh)"
 fi
 
+ZSH="${ZSH:-$HOME/.oh-my-zsh}"
+ZSH_THEME=""
+plugins=(
+  git
+  z
+  zsh-autosuggestions
+  zsh-syntax-highlighting
+)
+[[ -r "$ZSH/oh-my-zsh.sh" ]] && source "$ZSH/oh-my-zsh.sh"
+
 if command -v brew >/dev/null 2>&1; then
   HOMEBREW_PREFIX="$(brew --prefix)"
   if [[ -r "$HOMEBREW_PREFIX/share/powerlevel10k/powerlevel10k.zsh-theme" ]]; then
@@ -517,6 +577,7 @@ main() {
   log "Preparing macOS bootstrap"
   ensure_homebrew
   ensure_brew_packages
+  ensure_oh_my_zsh_stack
   sync_alacritty_assets
 
   if (( CLEAN_EXISTING )); then
